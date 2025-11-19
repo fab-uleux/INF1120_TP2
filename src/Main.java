@@ -47,13 +47,25 @@ public class Main {
                  System.out.println("Texte encrypté: " + resultatRot13);
                  break;
              case 2:
-                 System.out.println("Le chiffre César");
-                 String resultatCesar = cesar.cesar(entree);
-                 System.out.println("Texte encrypté: " + resultatCesar);
-                 break;
+                System.out.println("Le chiffre César");
+                String resultatCesar = cesar.cesar(entree);
+                System.out.println("Texte encrypté: " + resultatCesar);
+                break;
              case 3:
                  System.out.println("César au choix");
-//                 String resultaCesarChoix = cesarChoix.cesarChoix(entree);
+                 System.out.println("Entrez le nombre de lettres (1-25):");
+                 int decalage = sc.nextInt();
+                 sc.nextLine();
+
+                 System.out.println("Direction: (1) Droite ou (2) Gauche?");
+                 int direction = sc.nextInt();
+
+                 if (direction == 2) {
+                     decalage = -decalage;
+                 }
+
+                 String resultatCesarChoix = cesarChoix.cesarChoix(entree, decalage);
+                 System.out.println("Texte encrypté: " + resultatCesarChoix);
                  break;
              case 4:
                  System.out.println("Le Poly-Alphavariante");
