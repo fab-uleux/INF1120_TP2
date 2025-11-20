@@ -10,13 +10,13 @@ public class ROT13_Code {
             //l'alphabet minuscule
             for (int j = 0; j < alphabet.length; j++) {
                 if (charactere == alphabet[j]) {
-                    tab[i] = alphabet[j + 13];
+                    tab[i] = alphabet[(j + 13)%26];
                 }
             }
             //l'alphabet majuscule
             for (int j = 0; j < alphabetMaj.length; j++) {
                 if (charactere == alphabetMaj[j]) {
-                    tab[i] = alphabetMaj[j + 13];
+                    tab[i] = alphabetMaj[(j + 13)%26];
                 }
             }
         }

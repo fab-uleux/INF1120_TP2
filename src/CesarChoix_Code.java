@@ -10,9 +10,7 @@ public class CesarChoix_Code {
             // Alphabet minuscule
             for (int j = 0; j < alphabet.length; j++) {
                 if (charactere == alphabet[j]) {
-                    // Utilise modulo pour gérer les décalages négatifs aussi
-                    int nouvelIndex = (j + decalage) % 26;
-                    // Si négatif, ajouter 26 pour avoir un index positif
+                    int nouvelIndex = (j + decalage);
                     if (nouvelIndex < 0) {
                         nouvelIndex += 26;
                     }
@@ -24,7 +22,7 @@ public class CesarChoix_Code {
             // Alphabet majuscule
             for (int j = 0; j < alphabetMaj.length; j++) {
                 if (charactere == alphabetMaj[j]) {
-                    int nouvelIndex = (j + decalage) % 26;
+                    int nouvelIndex = (j + decalage);
                     if (nouvelIndex < 0) {
                         nouvelIndex += 26;
                     }

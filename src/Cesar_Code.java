@@ -8,7 +8,7 @@ public class Cesar_Code {
 
         // Générer un décalage aléatoire entre 1 et 25
         Random rnd = new Random();
-        int decalage = rnd.nextInt(1, 26); // Entre 1 et 25
+        int decalage = rnd.nextInt(0, 26); // Entre 1 et 25
 
         System.out.println("Décalage aléatoire: " + decalage);
 

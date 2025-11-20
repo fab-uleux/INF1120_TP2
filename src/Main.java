@@ -15,6 +15,9 @@ public class Main {
          //Appelle de la méthode menu_Code et création de l'objet menu
          menu_Code menu = new menu_Code();
 
+         int nombre = 0;
+         int choix2 = 0;
+
          //Appelle du premier menu et lecture de la réponse
          menu.menu1();
          int choix1 = sc.nextInt();
@@ -28,9 +31,17 @@ public class Main {
                  break;
              case 2:
                  System.out.println("Random");
+                 char[] alphabetRnd = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
                  Random rnd = new Random();
-                 int nombre = rnd.nextInt(1,5);
-                 System.out.println(nombre);
+                 int longueur = rnd.nextInt(3, 21);
+
+                 char[] lettresAleatoires = new char[longueur];
+                 for (int i = 0; i < longueur; i++) {
+                     int rndIndex = rnd.nextInt(alphabetRnd.length);
+                     lettresAleatoires[i] = alphabetRnd[rndIndex];
+                 }
+                 entree = new String(lettresAleatoires);
+                 System.out.println("Texte générer avec Random est un longueur de " + longueur + " lettres) \nVoici le texte générer: " + entree);
                  break;
              case 3:
                  System.out.println("Quitter");
@@ -38,7 +49,7 @@ public class Main {
          }
 
          menu.menu2();
-         int choix2 = sc.nextInt();
+         choix2 = sc.nextInt();
 
          switch (choix2){
              case 1:
@@ -74,8 +85,11 @@ public class Main {
              case 5:
                  System.out.println("Je sé po");
                  Random rnd = new Random();
-                 choix2 = rnd.nextInt(1,4);
-                 System.out.println(choix2);
+                 nombre = rnd.nextInt(1,5);
+                 System.out.println(nombre);
+                 if (nombre != 0){
+                     choix2 = nombre;
+                 }
          }
 
      }
