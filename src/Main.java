@@ -33,19 +33,19 @@ public class Main {
     // Méthodes d'affichage
     public static void afficher_Message(String message) {
         System.out.println("═══════════════════════════════════════");
-        System.out.println("MESSAGE ORIGINAL: "+message);
+        System.out.println("Message original: "+message);
         System.out.println("═══════════════════════════════════════");
     }
 
     public static void afficher_Message_Crypte(String messageCrypte) {
         System.out.println("═══════════════════════════════════════");
-        System.out.println("MESSAGE CRYPTÉ: "+messageCrypte);
+        System.out.println("Message crypté: "+messageCrypte);
         System.out.println("═══════════════════════════════════════");
     }
 
     public static void afficher_Message_Decrypte(String messageDecrypte) {
         System.out.println("═══════════════════════════════════════");
-        System.out.println("MESSAGE DÉCRYPTÉ: "+messageDecrypte);
+        System.out.println("Message décrypté: "+messageDecrypte);
         System.out.println("═══════════════════════════════════════");
     }
 
@@ -54,7 +54,7 @@ public class Main {
         for (int i = 0; i < texte.length(); i++) {
             char caractere = texte.charAt(i);
             if (caractere < 32 || caractere > 126) {
-                throw new CaractereException("Caractère non autorisé: '" + caractere + "' (ASCII " + (int) caractere + ")");
+                throw new CaractereException("Caractère non autorisé: '" + caractere + "' (ascii " + (int) caractere + ")");
             }
         }
     }
@@ -93,7 +93,7 @@ public class Main {
         }
         return new String(tab);
     }
-    public static String decrypteRot13_TUF(String entreeEncrypter) {
+    public static String DecrypteRot13_TUF(String entreeEncrypter) {
         char[] tab = entreeEncrypter.toCharArray();
 
         char[] ascii = new char[95];
@@ -192,51 +192,34 @@ public class Main {
     public static String PolyAlpha_TUF(String entree) {
         char[] tab = entree.toCharArray();
 
-        char[] ascii = new char[95];
-        for (int i = 32; i <= 126; i++) {
-            ascii[i - 32] = (char) i;
-        }
-
+        // Tableaux pour remplacer les voyelles par des symboles
         char[] voyelles = "aeiouyAEIOUY".toCharArray();
         char[] symboles = "+=&*!$+=&*!$".toCharArray();
 
         for (int i = 0; i < tab.length; i++) {
-            char charactere = tab[i];
-            int index = charactere - 32;
+            char c = tab[i];
+            boolean trouve = false;
 
-            if ((index >= 33 && index <= 58) || (index >= 65 && index <= 90) || index == 0) {
-
-                boolean replaced = false;
-
-                for (int v = 0; v < voyelles.length; v++) {
-                    if (charactere == voyelles[v]) {
-                        tab[i] = symboles[v];
-                        replaced = true;
-                        break;
-                    }
+            // 1. Remplacer les voyelles par des symboles
+            for (int j = 0; j < voyelles.length; j++) {
+                if (c == voyelles[j]) {
+                    tab[i] = symboles[j];
+                    trouve = true;
+                    break;
                 }
+            }
 
-                if (!replaced) {
-                    if (charactere >= '0' && charactere <= '9') {
-                        tab[i] = (char) ('9' - (charactere - '0'));
-                        replaced = true;
-                    }
-                }
+            if (!trouve && c >= '0' && c <= '9') {
+                tab[i] = (char) ('9' - (c - '0'));
+                trouve = true;
+            }
 
-                if (!replaced) {
-                    if ((charactere >= 'a' && charactere <= 'z')) {
-                        tab[i] = (char) (((charactere - 'a' + 4) % 26) + 'a');
-                    } else if ((charactere >= 'A' && charactere <= 'Z')) {
-                        tab[i] = (char) (((charactere - 'A' + 4) % 26) + 'A');
-                    }
+            if (!trouve) {
+                if (c >= 'a' && c <= 'z') {
+                    tab[i] = (char) (((c - 'a' + 4) % 26) + 'a');
+                } else if (c >= 'A' && c <= 'Z') {
+                    tab[i] = (char) (((c - 'A' + 4) % 26) + 'A');
                 }
-            } else if ((index >= 1 && index <= 15) || (index >= 26 && index <= 32) || (index >= 91 && index <= 94)) {
-                for (int k = tab.length - 1; k > i; k--) {
-                    tab[k] = tab[k - 1];
-                }
-                tab[i] = '?';
-                tab[i + 1] = charactere;
-                i++;
             }
         }
         return new String(tab);
@@ -324,46 +307,105 @@ public class Main {
                 switch (choix2) {
                     case 1:
                         System.out.println("ROT-13");
-//                        String resultatRot13 = Rot13_TUF.Rot13_TUF(entree);
-                        String resultatRot13 = Rot13_TUF(entree);
-                        System.out.println("Texte encrypté: " + resultatRot13);
-//                        entreeEncrypter = resultatRot13;
-                        continuerMenu2 = false;
+                        try {
+                            validerCaracteres(entree);
+                            String resultatRot13 = Rot13_TUF(entree);
+                            afficher_Message_Crypte(resultatRot13);
+                            entreeEncrypter = resultatRot13;
+
+                            // Option de décryptage
+                            menu3();
+                            int choixDecrypt = sc.nextInt();
+                            sc.nextLine();
+
+                            if(choixDecrypt == 1) {
+                                String messageDecrypte = DecrypteRot13_TUF(entreeEncrypter);
+                                afficher_Message_Decrypte(messageDecrypte);
+                            }
+
+                            continuerMenu2 = false;
+                        } catch (CaractereException e) {
+                            System.out.println("ERREUR: " + e.getMessage());
+                            System.out.println("ROT-13 accepte uniquement les caractères ASCII 32-126.");
+                            continuerMenu2 = false;
+                        }
                         break;
                     case 2:
                         System.out.println("Le chiffre César");
-                        String resultatCesar = Cesar_TUF(entree);
-                        System.out.println("Texte encrypté: " + resultatCesar);
-                        continuerMenu2 = false;
+                        try {
+                            validerCaracteres(entree);
+                            String resultatCesar = Cesar_TUF(entree);
+                            afficher_Message_Crypte(resultatCesar);
+                            entreeEncrypter = resultatCesar;
+
+                            // Note: Pour César avec décalage aléatoire, la décryption est impossible
+                            // car on ne connaît pas le décalage utilisé
+                            System.out.println("Note: Décryptage non disponible (décalage aléatoire inconnu)");
+
+                            continuerMenu2 = false;
+                        } catch (CaractereException e) {
+                            System.out.println("ERREUR: " + e.getMessage());
+                            continuerMenu2 = false;
+                        }
                         break;
                     case 3:
                         System.out.println("César au choix");
-                        System.out.println("Entrez le nombre de lettres (1-25):");
-                        int decalage = sc.nextInt();
-                        sc.nextLine();
+                        try {
+                            validerCaracteres(entree);
 
-                        if(decalage < 1 || decalage > 25){
-                            System.out.println("Veuillez entrer un nombre valide entre 1 et 25");
-                            break;
+                            System.out.println("Entrez le nombre de lettres (1-25):");
+                            int decalage = sc.nextInt();
+                            sc.nextLine();
+
+                            if(decalage < 1 || decalage > 25){
+                                System.out.println("Veuillez entrer un nombre valide entre 1 et 25");
+                                break;
+                            }
+
+                            System.out.println("Direction: (1) Droite ou (2) Gauche?");
+                            int direction = sc.nextInt();
+                            sc.nextLine();
+
+                            if (direction == 2) {
+                                decalage = -decalage;
+                            }
+
+                            decalageUtilise = decalage;
+
+                            String resultatCesarChoix = CesarChoix_TUF(entree, decalage);
+                            afficher_Message_Crypte(resultatCesarChoix);
+                            entreeEncrypter = resultatCesarChoix;
+
+                            // Option de décryptage
+                            menu3();
+                            int choixDecrypt = sc.nextInt();
+                            sc.nextLine();
+
+                            if(choixDecrypt == 1) {
+                                String messageDecrypte = CesarChoix_TUF(entreeEncrypter, decalageUtilise);
+                                afficher_Message_Decrypte(messageDecrypte);
+                            }
+
+                            continuerMenu2 = false;
+                        } catch (CaractereException e) {
+                            System.out.println("ERREUR: " + e.getMessage());
+                            continuerMenu2 = false;
                         }
-
-                        System.out.println("Direction: (1) Droite ou (2) Gauche?");
-                        int direction = sc.nextInt();
-                        sc.nextLine();
-
-                        if (direction == 2) {
-                            decalage = -decalage;
-                        }
-
-                        String resultatCesarChoix = CesarChoix_TUF(entree, decalage);
-                        System.out.println("Texte encrypté: " + resultatCesarChoix);
-                        continuerMenu2 = false;
                         break;
                     case 4:
                         System.out.println("Le Poly-Alphavariante");
-                         String resultaPolyAlpha = PolyAlpha_TUF(entreeSymbole);
-                         System.out.println("Texte encrypté: " + resultaPolyAlpha);
-                        continuerMenu2 = false;
+                        try {
+                            validerCaracteresPolyAlpha(entreeSymbole);
+                            String resultaPolyAlpha = PolyAlpha_TUF(entreeSymbole);
+                            afficher_Message_Crypte(resultaPolyAlpha);
+
+                            System.out.println("Note: Décryptage non disponible pour Poly-Alphavariante");
+
+                            continuerMenu2 = false;
+                        } catch (CaractereException e) {
+                            System.out.println("ERREUR: " + e.getMessage());
+                            continuerMenu2 = false;
+                        }
                         break;
                     case 5:
                         System.out.println("Je sais pas");
