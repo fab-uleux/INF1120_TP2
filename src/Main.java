@@ -22,8 +22,54 @@ public class Main {
                 "=========================================");
     }
 
+    public static void menu3(){
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                "~ Voulez-vous décrypter le message? ~\n" +
+                "~ 1- Oui, décrypter ~\n" +
+                "~ 2- Non, retour au menu principal ~\n" +
+                "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+    // Méthodes d'affichage
+    public static void afficher_Message(String message) {
+        System.out.println("═══════════════════════════════════════");
+        System.out.println("MESSAGE ORIGINAL: "+message);
+        System.out.println("═══════════════════════════════════════");
+    }
+
+    public static void afficher_Message_Crypte(String messageCrypte) {
+        System.out.println("═══════════════════════════════════════");
+        System.out.println("MESSAGE CRYPTÉ: "+messageCrypte);
+        System.out.println("═══════════════════════════════════════");
+    }
+
+    public static void afficher_Message_Decrypte(String messageDecrypte) {
+        System.out.println("═══════════════════════════════════════");
+        System.out.println("MESSAGE DÉCRYPTÉ: "+messageDecrypte);
+        System.out.println("═══════════════════════════════════════");
+    }
+
+    // Validation des caractères
+    public static void validerCaracteres(String texte) throws CaractereException {
+        for (int i = 0; i < texte.length(); i++) {
+            char caractere = texte.charAt(i);
+            if (caractere < 32 || caractere > 126) {
+                throw new CaractereException("Caractère non autorisé: '" + caractere + "' (ASCII " + (int) caractere + ")");
+            }
+        }
+    }
+
+    public static void validerCaracteresPolyAlpha(String texte) throws CaractereException {
+        for (int i = 0; i < texte.length(); i++) {
+            char caractere = texte.charAt(i);
+            if (!Character.isLetterOrDigit(caractere) && caractere != ' ') {
+                throw new CaractereException("Caractère non autorisé pour Poly-Alphavariante: '" + caractere + "'");
+            }
+        }
+    }
+
     //ROT13
-    public static String rot13(String entree) {
+    public static String Rot13_TUF(String entree) {
         char[] tab = entree.toCharArray();
 
         char[] ascii = new char[95];
@@ -47,7 +93,7 @@ public class Main {
         }
         return new String(tab);
     }
-    public static String decrypteRot13(String entreeEncrypter) {
+    public static String decrypteRot13_TUF(String entreeEncrypter) {
         char[] tab = entreeEncrypter.toCharArray();
 
         char[] ascii = new char[95];
@@ -75,7 +121,7 @@ public class Main {
         return new String(tab);
     }
 
-    public static String cesar(String entree) {
+    public static String Cesar_TUF(String entree) {
         char[] tab = entree.toCharArray();
         char[] alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ".toCharArray();
 
@@ -101,7 +147,7 @@ public class Main {
         return new String(tab);
     }
 
-    public static String cesarChoix(String entree, int decalage) {
+    public static String CesarChoix_TUF(String entree, int decalage) {
         char[] tab = entree.toCharArray();
 
         for (int i = 0; i < tab.length; i++) {
@@ -121,7 +167,7 @@ public class Main {
         return new String(tab);
     }
 
-    public static String decrypteCesar(String entree, int decalage) {
+    public static String DecrypteCesar_TUF(String entree, int decalage) {
         char[] tab = entree.toCharArray();
 
         for (int i = 0; i < tab.length; i++) {
@@ -143,7 +189,7 @@ public class Main {
         return new String(tab);
     }
 
-    public static String polyAlpha(String entree) {
+    public static String PolyAlpha_TUF(String entree) {
         char[] tab = entree.toCharArray();
 
         char[] ascii = new char[95];
@@ -205,6 +251,7 @@ public class Main {
 
         String entreeEncrypter = "";
         String entreeSymboleEncrypter = "";
+        int decalageUtilise = 0;
 
         boolean menuQuitter = true;
 
@@ -277,15 +324,15 @@ public class Main {
                 switch (choix2) {
                     case 1:
                         System.out.println("ROT-13");
-//                        String resultatRot13 = rot13.rot13(entree);
-                        String resultatRot13 = rot13(entree);
+//                        String resultatRot13 = Rot13_TUF.Rot13_TUF(entree);
+                        String resultatRot13 = Rot13_TUF(entree);
                         System.out.println("Texte encrypté: " + resultatRot13);
 //                        entreeEncrypter = resultatRot13;
                         continuerMenu2 = false;
                         break;
                     case 2:
                         System.out.println("Le chiffre César");
-                        String resultatCesar = cesar(entree);
+                        String resultatCesar = Cesar_TUF(entree);
                         System.out.println("Texte encrypté: " + resultatCesar);
                         continuerMenu2 = false;
                         break;
@@ -308,13 +355,13 @@ public class Main {
                             decalage = -decalage;
                         }
 
-                        String resultatCesarChoix = cesarChoix(entree, decalage);
+                        String resultatCesarChoix = CesarChoix_TUF(entree, decalage);
                         System.out.println("Texte encrypté: " + resultatCesarChoix);
                         continuerMenu2 = false;
                         break;
                     case 4:
                         System.out.println("Le Poly-Alphavariante");
-                         String resultaPolyAlpha = polyAlpha(entreeSymbole);
+                         String resultaPolyAlpha = PolyAlpha_TUF(entreeSymbole);
                          System.out.println("Texte encrypté: " + resultaPolyAlpha);
                         continuerMenu2 = false;
                         break;
@@ -331,23 +378,3 @@ public class Main {
         sc.close();
     }
 }
-
-
-//-[] ascii tab
-//      -[x] rot13
-//      -[x] cesar
-//      -[x] poly
-//-[] ascii validation
-//      -[] validation avec/sans symbole
-//
-//-[] poly_alpha
-//-[] decrytion
-//      -[x] rot13
-//      -[x] cesar
-//      -[] poly
-//-[] decrytion Main
-//      -[] rot13
-//      -[] cesar
-//      -[] poly
-//-[] Combiner le tous dans main
-//-[] doc word validation
