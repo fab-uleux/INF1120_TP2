@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Main {
+
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
 
@@ -13,20 +14,18 @@ public class Main {
 
         //Appelle des méthodes de decryption
         ROT13_Code decrypteRot13 = new ROT13_Code();
+        Cesar_Code decrypteCesar = new Cesar_Code();
 
         //Appelle de la méthode menu_Code
         Menu_Code menu = new Menu_Code();
 
-        boolean menuQuitter = true;
-        int nombre = 0;
         String entree = "";
         String entreeSymbole = "";
+
         String entreeEncrypter = "";
         String entreeSymboleEncrypter = "";
 
-
-
-//        String entreeOriginal = ""; PAS PERMIS. tab dynamique???
+        boolean menuQuitter = true;
 
         while(menuQuitter){
             // Réinitialiser les variables pour chaque cycle
@@ -45,6 +44,7 @@ public class Main {
                         System.out.println("Saisie au clavier");
                         entree = sc.nextLine();
                         System.out.println("Le texte que vous désirez encrypter: " + entree);
+
                         continuerMenu1 = false;
                         break;
                     case 2:
@@ -68,14 +68,16 @@ public class Main {
                         }
 
                         entree = new String(lettresAleatoires);
-                        entreeSymbole = new String(lettresSymboleAleatoires);
                         System.out.println("Texte généré sans symbole d'une longueur de " + longueur + " lettres) \nVoici le texte généré: " + entree);
+
+                        entreeSymbole = new String(lettresSymboleAleatoires);
                         System.out.println("Texte généré avec symbole d'une longueur de " + longueur + " lettres) \nVoici le texte généré: " + entreeSymbole);
+
                         continuerMenu1 = false;
                         break;
                     case 3:
                         System.out.println("Quitter");
-                        menuQuitter = false; // Arrêter la boucle principale
+                        menuQuitter = false;
                         continuerMenu1 = false;
                         break;
                 }
@@ -95,14 +97,16 @@ public class Main {
                     case 1:
                         System.out.println("ROT-13");
                         String resultatRot13 = rot13.rot13(entree);
+                        //        String resultatRot13 = rot13(entree);
                         System.out.println("Texte encrypté: " + resultatRot13);
-                        continuerMenu2 = false; // Sort du menu2, retourne au menu1
+//                        entreeEncrypter = resultatRot13;
+                        continuerMenu2 = false;
                         break;
                     case 2:
                         System.out.println("Le chiffre César");
                         String resultatCesar = cesar.cesar(entree);
                         System.out.println("Texte encrypté: " + resultatCesar);
-                        continuerMenu2 = false; // Sort du menu2, retourne au menu1
+                        continuerMenu2 = false;
                         break;
                     case 3:
                         System.out.println("César au choix");
@@ -125,35 +129,32 @@ public class Main {
 
                         String resultatCesarChoix = cesarChoix.cesarChoix(entree, decalage);
                         System.out.println("Texte encrypté: " + resultatCesarChoix);
-                        continuerMenu2 = false; // Sort du menu2, retourne au menu1
+                        continuerMenu2 = false;
                         break;
                     case 4:
                         System.out.println("Le Poly-Alphavariante");
                          String resultaPolyAlpha = polyAlpha.polyAlpha(entreeSymbole);
                          System.out.println("Texte encrypté: " + resultaPolyAlpha);
-                        continuerMenu2 = false; // Sort du menu2, retourne au menu1
+                        continuerMenu2 = false;
                         break;
                     case 5:
                         System.out.println("Je sais pas");
                         Random rnd2 = new Random();
                         choix2 = rnd2.nextInt(1, 5);
                         System.out.println("Méthode choisie: " + choix2);
-                        // continuerMenu2 reste true, donc le switch se ré-exécute
                         break;
                 }
             }
         }
-
         System.out.println("Merci d'avoir encrypter avec nous, à la prochaine!");
         sc.close();
-
     }
 }
 
 
 //-[] ascii tab
 //      -[x] rot13
-//      -[] cesar
+//      -[x] cesar
 //      -[] poly
 //-[] ascii validation
 //      -[] validation avec/sans symbole
@@ -161,6 +162,11 @@ public class Main {
 //-[] poly_alpha
 //-[] decrytion
 //      -[x] rot13
+//      -[x] cesar
+//      -[] poly
+//-[] decrytion Main
+//      -[] rot13
 //      -[] cesar
 //      -[] poly
+//-[] Combiner le tous dans main
 //-[] doc word validation

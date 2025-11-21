@@ -1,4 +1,5 @@
 public class ROT13_Code {
+
     public String rot13(String entree) {
         char[] tab = entree.toCharArray();
 
@@ -16,13 +17,14 @@ public class ROT13_Code {
                 for (int j = 0; j < ascii.length; j++) {
                     if (charactere == ascii[j]) {
                         tab[i] = ascii[(j + 13) % 95];
-                        break;
+//                        break;
                     }
                 }
             }
         }
         return new String(tab);
     }
+
 
     public String decrypteRot13(String entreeEncrypter) {
         char[] tab = entreeEncrypter.toCharArray();
