@@ -1,4 +1,4 @@
-public class menu_Code {
+public class Menu_Code {
     public void menu1(){
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++\n" +
                 "+ Faites votre choix : +\n" +
