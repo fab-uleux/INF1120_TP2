@@ -21,9 +21,12 @@ public class Main {
         int nombre = 0;
         String entree = "";
         String entreeSymbole = "";
+        String entreeEncrypter = "";
+        String entreeSymboleEncrypter = "";
 
 
-//        String entreeOriginal = ""; PAS PERMIS. TAB DYNAMIQUE???
+
+//        String entreeOriginal = ""; PAS PERMIS. tab dynamique???
 
         while(menuQuitter){
             // Réinitialiser les variables pour chaque cycle
@@ -31,6 +34,7 @@ public class Main {
             boolean continuerMenu2 = true;
 
             //Appelle du premier menu et lecture de la réponse
+//            System.out.println(entree);
             menu.menu1();
             int choix1 = sc.nextInt();
             sc.nextLine();
@@ -45,7 +49,9 @@ public class Main {
                         break;
                     case 2:
                         System.out.println("Random");
-                        char[] alphabetRnd = "abcdefghijklmnopqrstuvwxyz ".toCharArray();
+                        char[] alphabetRnd = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ".toCharArray();
+                        char[] alphabetSymboleRnd = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789)(*&^%$#@!?".toCharArray();
+
                         Random rnd = new Random();
                         int longueur = rnd.nextInt(3, 21);
 
@@ -54,8 +60,17 @@ public class Main {
                             int rndIndex = rnd.nextInt(alphabetRnd.length);
                             lettresAleatoires[i] = alphabetRnd[rndIndex];
                         }
+
+                        char[] lettresSymboleAleatoires = new char[longueur];
+                        for (int i = 0; i < longueur; i++) {
+                            int rndIndex = rnd.nextInt(alphabetSymboleRnd.length);
+                            lettresSymboleAleatoires[i] = alphabetSymboleRnd[rndIndex];
+                        }
+
                         entree = new String(lettresAleatoires);
-                        System.out.println("Texte généré d'une longueur de " + longueur + " lettres) \nVoici le texte généré: " + entree);
+                        entreeSymbole = new String(lettresSymboleAleatoires);
+                        System.out.println("Texte généré sans symbole d'une longueur de " + longueur + " lettres) \nVoici le texte généré: " + entree);
+                        System.out.println("Texte généré avec symbole d'une longueur de " + longueur + " lettres) \nVoici le texte généré: " + entreeSymbole);
                         continuerMenu1 = false;
                         break;
                     case 3:
@@ -114,8 +129,8 @@ public class Main {
                         break;
                     case 4:
                         System.out.println("Le Poly-Alphavariante");
-                        // String resultaPolyAlpha = polyAlpha.polyAlpha(entree);
-                        // System.out.println("Texte encrypté: " + resultaPolyAlpha);
+                         String resultaPolyAlpha = polyAlpha.polyAlpha(entreeSymbole);
+                         System.out.println("Texte encrypté: " + resultaPolyAlpha);
                         continuerMenu2 = false; // Sort du menu2, retourne au menu1
                         break;
                     case 5:
@@ -134,3 +149,18 @@ public class Main {
 
     }
 }
+
+
+//-[] ascii tab
+//      -[x] rot13
+//      -[] cesar
+//      -[] poly
+//-[] ascii validation
+//      -[] validation avec/sans symbole
+//
+//-[] poly_alpha
+//-[] decrytion
+//      -[x] rot13
+//      -[] cesar
+//      -[] poly
+//-[] doc word validation
