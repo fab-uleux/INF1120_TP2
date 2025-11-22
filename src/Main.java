@@ -1,3 +1,8 @@
+// Prénom: Fabien
+// Nom: Turgeon
+// Code permanent: TURF01079504
+// Gr: 40
+
 import java.util.Scanner;
 import java.util.Random;
 
@@ -6,7 +11,7 @@ public class Main {
     static int decalageGlobal = 0;
 
     // ===== MENUS =====
-    public static void menu1(){
+    public static void menu1_TUF(){
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++\n" +
                 "+ Faites votre choix : +\n" +
                 "+ 1- Je veux saisir le message au clavier +\n" +
@@ -14,7 +19,7 @@ public class Main {
                 "+ 3- Je veux aller dormir. (Quitter) +\n" +
                 "++++++++++++++++++++++++++++++++++++++++++++++++");
     }
-    public static void menu2(){
+    public static void menu2_TUF(){
         System.out.println("========================================\n" +
                 "= Je choisis : =\n" +
                 "= 1- Le ROT-13 (décalage) =\n" +
@@ -25,7 +30,7 @@ public class Main {
                 "=========================================");
     }
 
-    public static void menu3(){
+    public static void menu3_TUF(){
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
                 "~ Voulez-vous décrypter le message? ~\n" +
                 "~ 1- Oui, décrypter ~\n" +
@@ -36,7 +41,7 @@ public class Main {
     // ===== AFFICHAGE =====
 
     // Afficher message crypté
-    public static void afficherMessageCrypte(String messageCrypte) {
+    public static void afficherMessageCrypte_TUF(String messageCrypte) {
         System.out.println(
                 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
                         "~ Message crypté: "+ messageCrypte +"\n" +
@@ -44,7 +49,7 @@ public class Main {
         );
     }
     // Afficher message décrypté
-    public static void afficherMessageDecrypte(String messageDecrypte) {
+    public static void afficherMessageDecrypte_TUF(String messageDecrypte) {
         System.out.println(
                 "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
                         "~ Message de-crypté: "+ messageDecrypte +"\n" +
@@ -54,7 +59,7 @@ public class Main {
 
     // ===== GÉNÉRATION RANDOM =====
     // Génère du texte au hasard sans symboles spéciaux
-    public static String randomEntree() {
+    public static String randomEntree_TUF() {
         char[] alphabetRnd = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ".toCharArray();
         Random rnd = new Random();
         int longueur = rnd.nextInt(3, 21);
@@ -69,7 +74,7 @@ public class Main {
     }
 
     // Génère du texte au hasard AVEC symboles spéciaux
-    public static String randomEntreeSymbole() {
+    public static String randomEntreeSymbole_TUF() {
         char[] alphabetSymboleRnd = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789)(*&^%$#@!?".toCharArray();
         Random rnd = new Random();
         int longueur = rnd.nextInt(3, 21);
@@ -78,14 +83,13 @@ public class Main {
         for (int i = 0; i < longueur; i++) {
             texte += alphabetSymboleRnd[rnd.nextInt(alphabetSymboleRnd.length)];
         }
-
         System.out.println("Texte généré avec symbole: " + texte);
         return texte;
     }
 
     // ===== VALIDATIONS =====
     // Valide que le texte ne contient que des lettres et espaces
-    public static boolean validerCaracteresSimple(String texte) {
+    public static boolean validerCaracteresSimple_TUF(String texte) {
         for (int i = 0; i < texte.length(); i++) {
             char caractere = texte.charAt(i);
             // Accepte uniquement les lettres (a-z, A-Z) et l'espace
@@ -98,7 +102,7 @@ public class Main {
     }
 
     // Valide que le texte contient uniquement les caractères acceptés pour Poly-Alphavariante
-    public static boolean validerCaracteresPolyAlpha(String texte) {
+    public static boolean validerCaracteresPolyAlpha_TUF(String texte) {
         for (int i = 0; i < texte.length(); i++) {
             char caractere = texte.charAt(i);
             int ascii = (int) caractere;
@@ -256,7 +260,6 @@ public class Main {
                     tab[i] = alphabet[k];
                 }
             }
-
             // l'alphabet majuscule
             for (int j = 0; j < alphabetMaj.length; j++) {
                 if (caractere == alphabetMaj[j]) {
@@ -298,15 +301,17 @@ public class Main {
             else if (caractere >= '0' && caractere <= '9') {
                 resultat += (char) ('9' - (caractere - '0'));
             }
-            // Décaler les consonnes minuscules de 4 positions
+            // Décale les consonnes minuscules de 4 positions
             else if (caractere >= 'a' && caractere <= 'z') {
-                resultat += (char) (((caractere - 'a' + 4) % 26) + 'a');
+                int decalageAlpha = (caractere - 'a' + 4) % 26;
+                resultat += (char) (decalageAlpha + 'a');
             }
-            // Décaler les consonnes majuscules de 4 positions
+            // Décale les consonnes majuscules de 4 positions
             else if (caractere >= 'A' && caractere <= 'Z') {
-                resultat += (char) (((caractere - 'A' + 4) % 26) + 'A');
+                int decalageAlpha = (caractere - 'A' + 4) % 26;
+                resultat += (char) (decalageAlpha + 'A');
             }
-            // Ajouter ? avant les symboles spéciaux
+            // Ajouter ? avant les symboles autres
             else {
                 resultat += '?';
                 resultat += caractere;
@@ -322,7 +327,7 @@ public class Main {
         for (int i = 0; i < entree.length(); i++) {
             char caractere = entree.charAt(i);
 
-            // Inverser les symboles des voyelles
+            // Inverser les symboles avec des voyelles
             if (caractere == '+') {
                 resultat += 'a';
             } else if (caractere == '=') {
@@ -340,15 +345,17 @@ public class Main {
             else if (caractere >= '0' && caractere <= '9') {
                 resultat += (char) ('9' - (caractere - '0'));
             }
-            // Décaler les consonnes minuscules de -4 positions
+            // Décale les consonnes minuscules de -4 positions
             else if (caractere >= 'a' && caractere <= 'z') {
-                resultat += (char) (((caractere - 'a' - 4 + 26) % 26) + 'a');
+                int decalageAlpha = (caractere - 'a' - 4 + 26) % 26;
+                resultat += (char) (decalageAlpha + 'a');
             }
-            // Décaler les consonnes majuscules de -4 positions
+            // Decale les consonnes majuscules de -4 positions
             else if (caractere >= 'A' && caractere <= 'Z') {
-                resultat += (char) (((caractere - 'A' - 4 + 26) % 26) + 'A');
+                int decalageAlpha = (caractere - 'A' - 4 + 26) % 26;
+                resultat += (char) (decalageAlpha + 'A');
             }
-            // Traiter les symboles spéciaux (après ?)
+            // Traiter les symboles autres
             else if (caractere == '?') {
                 i++;
                 resultat += entree.charAt(i);
@@ -381,7 +388,7 @@ public class Main {
             boolean continuerMenu2 = true;
 
             // === MENU 1 ===
-            menu1();
+            menu1_TUF();
             int choix1 = sc.nextInt();
             sc.nextLine();
 
@@ -396,8 +403,8 @@ public class Main {
                         break;
                     case 2:
                         System.out.println("Random");
-                        entree = randomEntree();
-                        entreeSymbole = randomEntreeSymbole();
+                        entree = randomEntree_TUF();
+                        entreeSymbole = randomEntreeSymbole_TUF();
                         continuerMenu1 = false;
                         break;
                     case 3:
@@ -412,7 +419,7 @@ public class Main {
             }
 
             // === MENU 2 ===
-            menu2();
+            menu2_TUF();
             int choix2 = sc.nextInt();
             sc.nextLine();
 
@@ -421,20 +428,20 @@ public class Main {
                     case 1:
                         System.out.println("ROT-13");
                         // Vérifie que l'entrée est valide
-                        if (validerCaracteresSimple(entree)) {
+                        if (validerCaracteresSimple_TUF(entree)) {
                             String resultatRot13 = Rot13_TUF(entree);
-                            afficherMessageCrypte(resultatRot13);
+                            afficherMessageCrypte_TUF(resultatRot13);
                             entreeEncrypter = resultatRot13; //sauvegarde le message encrypté
 
                             // Affichage du menu pour demander si Marie veut décrypter
-                            menu3();
+                            menu3_TUF();
                             int choixDecrypt = sc.nextInt();
                             sc.nextLine();
 
                             // décrypte le message si option 1 choisie
                             if(choixDecrypt == 1) {
                                 String messageDecrypte = DecrypteRot13_TUF(entreeEncrypter); //Décrypter entreeEncrypter et sauvegarde la version décrypter
-                                afficherMessageDecrypte(messageDecrypte);// affiche le message décrypter
+                                afficherMessageDecrypte_TUF(messageDecrypte);// affiche le message décrypter
                             }
                         }
                         continuerMenu2 = false;
@@ -442,14 +449,14 @@ public class Main {
                     case 2:
                         System.out.println("Le chiffre César");
                         // Vérifie que l'entrée est valide
-                        if (validerCaracteresSimple(entree)) {
+                        if (validerCaracteresSimple_TUF(entree)) {
 
                             String resultat = Cesar_TUF(entree);
-                            afficherMessageCrypte(resultat);
+                            afficherMessageCrypte_TUF(resultat);
                             entreeEncrypter = resultat; // sauvegarde le message encrypté
 
                             // Affichage du menu pour demander si Marie veut décrypter
-                            menu3();
+                            menu3_TUF();
                             int choixDecrypt = sc.nextInt();
                             sc.nextLine();
 
@@ -457,7 +464,7 @@ public class Main {
                             if(choixDecrypt == 1) {
                                 int decalageDecrypt = -decalageGlobal; // applique le décalage inverse
                                 String messageDecrypte = DecrypteCesar_TUF(entreeEncrypter, decalageDecrypt);// Décrypter entreeEncrypter et sauvegarde la version décrypter
-                                afficherMessageDecrypte(messageDecrypte); // affiche le message décrypter
+                                afficherMessageDecrypte_TUF(messageDecrypte); // affiche le message décrypter
                             }
                         }
                         continuerMenu2 = false;
@@ -465,7 +472,7 @@ public class Main {
                     case 3:
                         System.out.println("César au choix");
                         // Vérifie que l'entrée est valide
-                        if (validerCaracteresSimple(entree)) {
+                        if (validerCaracteresSimple_TUF(entree)) {
                             System.out.println("Entrez le nombre de lettres valide netre 1 et 25:");
                             decalage = sc.nextInt();
                             sc.nextLine();
@@ -488,11 +495,11 @@ public class Main {
                             }
 
                             String resultatCesarChoix = CesarChoix_TUF(entree, decalage);
-                            afficherMessageCrypte(resultatCesarChoix);
+                            afficherMessageCrypte_TUF(resultatCesarChoix);
                             entreeEncrypter = resultatCesarChoix; // sauvegarde le message encrypté
 
                             // Affichage du menu pour demander si Marie veut décrypter
-                            menu3();
+                            menu3_TUF();
                             int choixDecrypt = sc.nextInt();
                             sc.nextLine();
 
@@ -500,7 +507,7 @@ public class Main {
                             if(choixDecrypt == 1) {
                                 int decalageDecrypt = -decalage; // utilise le décalage inverse
                                 String messageDecrypte = DecrypteCesar_TUF(entreeEncrypter, decalageDecrypt); // Décrypter entreeEncrypter et sauvegarde la version décrypter
-                                afficherMessageDecrypte(messageDecrypte); // affiche le message décrypter
+                                afficherMessageDecrypte_TUF(messageDecrypte); // affiche le message décrypter
 
                             }
                             continuerMenu2 = false;
@@ -514,13 +521,13 @@ public class Main {
                         }
 
                         // Vérifie que l'entrée est valide
-                        if (validerCaracteresPolyAlpha(entreeSymbole)) {
+                        if (validerCaracteresPolyAlpha_TUF(entreeSymbole)) {
                             String resultaPolyAlpha = PolyAlpha_TUF(entreeSymbole);//passe le message pour l'encrypter
-                            afficherMessageCrypte(resultaPolyAlpha); // affiche le message encrypter
+                            afficherMessageCrypte_TUF(resultaPolyAlpha); // affiche le message encrypter
                             entreeEncrypter = resultaPolyAlpha; // sauvegarde le message encrypté
 
                             // Affichage du menu pour demander si Marie veut décrypter
-                            menu3();
+                            menu3_TUF();
                             int choixDecrypt = sc.nextInt();
                             sc.nextLine();
 
@@ -528,9 +535,11 @@ public class Main {
 
                             if(choixDecrypt == 1) {
                                 String messageDecrypte = DecryptePolyAlpha_TUF(entreeEncrypter); // Décrypter entreeEncrypter et sauvegarde la version décrypter
-                                afficherMessageDecrypte(messageDecrypte); // affiche le message décrypter
+                                afficherMessageDecrypte_TUF(messageDecrypte); // affiche le message décrypter
                             }
                             continuerMenu2 = false;
+                        } else {
+                            continuerMenu2 = false;  // Sortir même si invalide
                         }
                         break;
                     case 5:
